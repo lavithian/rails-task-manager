@@ -16,14 +16,26 @@ class TasksController < ApplicationController
   def create
     @task = Task.new(task_params)
     @task.save
+    rediret_to task_path(task)
   end
 
   def task_params
     params.require(:task).permit(:title, :details, :completed)
   end
 
-  # def create
-  #   @restaurant = Restaurant.new(params[:restaurant])
-  #   @restaurant.save # Will raise ActiveModel::ForbiddenAttributesError
-  # end
+  def edit
+    @task = Task.find(params[:id])
+  end
+
+  def update
+    @task = Task.find(params[:id])
+    @task.update(params[:id]) # Will raise ActiveModel::ForbiddenAttributesError
+    redirect_to task_path(@task)
+  end
+
+  def destroy
+    @task = task.find(params[:id])
+    task.destroy(params[:id])
+    redirect_to task_path(@task)
+  end
 end
